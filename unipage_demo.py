@@ -49,10 +49,10 @@ class unipage(object):
             self.root.add_widget(self.unibuttons[-1])
         else:
             import ui
-            self.unibuttons[-1] = ui.Button(
-                frame=(x * xratio, (600 - y - h) * yratio,
-                       w * xratio, h * yratio),
-                title=text)
+            self.unibuttons[-1] = ui.Button(frame=(x * xratio,
+                                                   (600 - y - h) * yratio,
+                                                   w * xratio, h * yratio),
+                                            title=text)
             last_unibutton = self.unibuttons[-1]
             last_unibutton.background_color = (0.4, 0.4, 0.4)
             last_unibutton.action = function
