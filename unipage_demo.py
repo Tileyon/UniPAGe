@@ -137,7 +137,7 @@ class unipage(object):
             self.unimages[-1].image = ui.Image.named(source)
 
     def uniframe(self, params):
-        x, y, w, h, color = params
+        x, y, w, h, color = params[:5]
         xratio = self.screen_size[0] / 800.0
         yratio = self.screen_size[1] / 600.0
         if self.kivy:
