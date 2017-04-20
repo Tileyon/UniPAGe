@@ -1,7 +1,7 @@
 # UniPAGe
 A Universal Python Adaptable GUI extension
 
-Copyright &copy 2017 Ti Leyon
+Copyright © 2017 Ti Leyon
 
 ## UniPAGe Tutorial
 The Universal Python Adaptable GUI Extensions (UniPAGe) 
