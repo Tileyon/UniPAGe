@@ -1,3 +1,4 @@
+# coding: utf-8
 #-----------------------------------------------------------------------------
 # Name:      UniPaGe
 # Purpose:   Adaptable Graphic User Interface for Python
@@ -48,14 +49,16 @@ class unipage(object):
                         notoptimal = False
                     else:
                         ss1 -= 1
+                ss1 = ss1 - 124
                 ss2 = (ss1 / 4) * 3
                 if ss2 > ss3:
+                    print('yes')
                     ss2 = ss3 - ss2 - ((ss3 - ss2) % 3)
                     ss1 = (ss2 / 3) * 4
                 self.screen_size = (ss1, ss2)
-                self.xratio = self.screen_size[0]
-                self.yratio = self.screen_size[1]
-
+                self.xratio = self.screen_size[0] / 800
+                self.yratio = self.screen_size[1] / 600
+                
             self.root = ui.View(frame=(0,0,self.screen_size[0], \
                         self.screen_size[1]))
 
@@ -235,7 +238,7 @@ if __name__ == '__main__':
     unitext = unipage.unitext
     unibutton = unipage.unibutton
     unimage = unipage.unimage
-    widgets = [(600, 450),
+    widgets = [(0, 0),
         (uniframe,(0, 0, 600, 450,(.6,.6,.6))),
         (unilabel,(80, 300, 240, 20, 'Hey I am just a simple label.')),
         (unibutton,(40, 40, 100, 40, 'Click me', function_1)),
@@ -246,3 +249,4 @@ if __name__ == '__main__':
     mypage = uniscreen(widgets)
     mypage.setpage()
     mypage.showpage()
+    
