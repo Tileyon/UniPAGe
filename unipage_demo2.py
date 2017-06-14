@@ -15,6 +15,7 @@
 #-----------------------------------------------------------------------------
 
 class unipage(object):
+
     def __init__(self, kivy, screen_size):
         self.kivy = kivy
         self.screen_size = screen_size
@@ -23,21 +24,42 @@ class unipage(object):
         self.unilabels = []
         self.unimages = []
         self.uniframes = []
-
+        self.xratio = self.screen_size[0] / 800.0
+        self.yratio = self.screen_size[1] / 600.0
 
     def setscreen(self):
         if self.kivy:
             from kivy.uix.floatlayout import FloatLayout
             from kivy.core.window import Window
             self.root = FloatLayout()
+            if (self.xratio == 0) or (self.yratio == 0):
+                self.xratio = 1
+                self.yratio = 1
+                self.screen_size = (800, 600)
             Window.size = self.screen_size
         else:
             import ui
-            self.root = ui.View(frame=(0,0,self.screen_size[0], self.screen_size[1]))
+            if (self.xratio == 0) or (self.yratio == 0):
+                ss1 = ui.get_screen_size()[0]
+                ss3 = ui.get_screen_size()[1]
+                notoptimal = True
+                while notoptimal:
+                    if ss1 % 8 == 0:
+                        notoptimal = False
+                    else:
+                        ss1 -= 1
+                ss2 = (ss1 / 4) * 3
+                if ss2 > ss3:
+                    ss2 = ss3 - ss2 - ((ss3 - ss2) % 3)
+                    ss1 = (ss2 / 3) * 4
+                self.screen_size = (ss1, ss2)
+                self.xratio = self.screen_size[0]
+                self.yratio = self.screen_size[1]
+
+            self.root = ui.View(frame=(0,0,self.screen_size[0], \
+                        self.screen_size[1]))
 
     def unibutton(self, params):
-        xratio = self.screen_size[0] / 800.0
-        yratio = self.screen_size[1] / 600.0
         self.unibuttons.append([])
         if len(params) == 6:
             function = params[5]
@@ -49,27 +71,25 @@ class unipage(object):
             text = params[4],
             size_hint_y = None,
             size_hint_x = None,
-            height = params[3] * yratio,
-            width = params[2] * xratio,
-            pos = (params[0] * xratio, params[1] * yratio),
+            height = params[3] * self.yratio,
+            width = params[2] * self.xratio,
+            pos = (params[0] * self.xratio, params[1] * self.yratio),
             on_press = function )
             self.root.add_widget(self.unibuttons[len(self.unibuttons) - 1])
         else:
             import ui
             self.unibuttons[len(self.unibuttons) - 1] = ui.Button(frame= \
-                (params[0] * xratio, (600 - params[1] - params[3]) * yratio, \
-                params[2] * xratio, params[3] * yratio), title = params[4])
+                (params[0] * self.xratio, (600 - params[1] - params[3]) * self.yratio, \
+                params[2] * self.xratio, params[3] * self.yratio), title = params[4])
             self.unibuttons[len(self.unibuttons) - 1].background_color \
                 = (0.4,0.4,0.4)
             self.unibuttons[len(self.unibuttons) - 1].action = function
-            self.unibuttons[len(self.unibuttons) - 1].height = params[3] * xratio
-            self.unibuttons[len(self.unibuttons) - 1].width = params[2] * yratio
+            self.unibuttons[len(self.unibuttons) - 1].height = params[3] * self.xratio
+            self.unibuttons[len(self.unibuttons) - 1].width = params[2] * self.yratio
             self.unibuttons[len(self.unibuttons) - 1].tint_color = 'white'
             self.root.add_subview(self.unibuttons[len(self.unibuttons) - 1])
 
     def unitext(self, params):
-        xratio = self.screen_size[0] / 800.0
-        yratio = self.screen_size[1] / 600.0
         self.unitexts.append([])
         if self.kivy:
             from kivy.uix.textinput import TextInput
@@ -77,32 +97,30 @@ class unipage(object):
             id = 'text' + str(len(self.unitexts) - 1),
             size_hint_y = None,
             size_hint_x = None,
-            height = params[3] * yratio,
-            width = params[2] * xratio,
+            height = params[3] * self.yratio,
+            width = params[2] * self.xratio,
             text = params[4],
             multiline = True,
-            pos = (params[0] * xratio, params[1] * yratio))
+            pos = (params[0] * self.xratio, params[1] * self.yratio))
             self.root.add_widget(self.unitexts[len(self.unitexts) - 1])
         else:
             import ui
             self.unitexts[len(self.unitexts) - 1] = ui.TextField(frame=
-                (params[0] * xratio, (600 - params[1] - params[3]) * \
-                yratio, params[2] * xratio, params[3] * yratio))
+                (params[0] * self.xratio, (600 - params[1] - params[3]) * \
+                self.yratio, params[2] * self.xratio, params[3] * self.yratio))
             self.unitexts[len(self.unitexts) - 1].bordered = False
             self.unitexts[len(self.unitexts) - 1].background_color = 'white'
-            self.unitexts[len(self.unitexts) - 1].font = ('<system>', 23 * xratio)
+            self.unitexts[len(self.unitexts) - 1].font = ('<system>', 23 * self.xratio)
             self.unitexts[len(self.unitexts) - 1].text = params[4]
             self.root.add_subview(self.unitexts[len(self.unitexts) - 1])
 
     def unilabel(self, params):
-        xratio = self.screen_size[0] / 800.0
-        yratio = self.screen_size[1] / 600.0
         self.unilabels.append([])
         if self.kivy:
 
             from kivy.uix.label import Label
             self.unilabels[len(self.unilabels) - 1] = Label(pos = \
-                (params[0] * xratio, params[1] * yratio), \
+                (params[0] * self.xratio, params[1] * self.yratio), \
                 size_hint=(1.0,1.0), halign="left", \
                 valign="bottom", text = params[4])
             self.unilabels[len(self.unilabels) - 1].bind(size= \
@@ -114,25 +132,23 @@ class unipage(object):
             import ui
 
             self.unilabels[len(self.unilabels) - 1] = ui.Label(frame= \
-                (params[0] * xratio,  (600 - params[1] - params[3]) * yratio, \
-                params[2] * xratio, params[3] * yratio))
+                (params[0] * self.xratio,  (600 - params[1] - params[3]) * self.yratio, \
+                params[2] * self.xratio, params[3] * self.yratio))
             self.unilabels[len(self.unilabels) - 1].text = params[4]
             self.unilabels[len(self.unilabels) - 1].text_color = 'white'
             self.unilabels[len(self.unilabels) - 1].alignment = ALIGN_LEFT = True
-            self.unilabels[len(self.unilabels) - 1].font = ('<system>', 18 * xratio)
+            self.unilabels[len(self.unilabels) - 1].font = ('<system>', 18 * self.xratio)
             self.root.add_subview(self.unilabels[len(self.unilabels) - 1])
 
     def unimage(self, params):
-        xratio = self.screen_size[0] / 800.0
-        yratio = self.screen_size[1] / 600.0
         self.unimages.append([])
         if self.kivy:
             from kivy.uix.image import Image
 
             self.unimages[len(self.unimages) - 1] = Image( source= params[4],
                 allow_stretch = True, size_hint = (None, None),
-                size=(params[2] * xratio, params[3] * yratio),
-                pos=(params[0] * xratio, params[1] * yratio))
+                size=(params[2] * self.xratio, params[3] * self.yratio),
+                pos=(params[0] * self.xratio, params[1] * self.yratio))
 
             self.root.add_widget(self.unimages[len(self.unitexts) - 1])
 
@@ -140,33 +156,31 @@ class unipage(object):
             import ui
 
             self.unimages[len(self.unimages) - 1] = (ui.ImageView
-            (name = 'Image', frame = (params[0] * xratio, \
-            (600 - params[1] - params[3]) * yratio, \
-            params[2] * xratio, params[3] * yratio)))
+            (name = 'Image', frame = (params[0] * self.xratio, \
+            (600 - params[1] - params[3]) * self.yratio, \
+            params[2] * self.xratio, params[3] * self.yratio)))
 
             self.root.add_subview (self.unimages[len(self.unimages) - 1])
 
             self.unimages[len(self.unitexts) - 1].image = ui.Image.named(params[4])
 
     def uniframe(self, params):
-        xratio = self.screen_size[0] / 800.0
-        yratio = self.screen_size[1] / 600.0
         if self.kivy:
             from kivy.graphics import Color
             from kivy.graphics import Rectangle
             self.root.canvas.add(Color (params[4][0],params[4][1], params[4][2]))
-            self.root.canvas.add(Rectangle(pos = (params[0] * xratio, \
-                params[1] * yratio), size = (params[2] * xratio, \
-                params[3] * yratio)))
+            self.root.canvas.add(Rectangle(pos = (params[0] * self.xratio, \
+                params[1] * self.yratio), size = (params[2] * self.xratio, \
+                params[3] * self.yratio)))
         else:
             import ui
-            xratio = self.screen_size[0] / 800.0
-            yratio = self.screen_size[1] / 600.0
             self.uniframes.append([])
-            self.uniframes[len(self.uniframes) - 1] = ui.View(frame=(params[0] * xratio, \
-                (600 - params[1] - params[3]) * yratio, \
-                params[2] * xratio, params[3] * yratio))
-            self.uniframes[len(self.uniframes) - 1].background_color = (params[4][0],params[4][1], params[4][2],1.0)
+            self.uniframes[len(self.uniframes) - 1] = \
+                ui.View(frame=(params[0] * self.xratio, \
+                (600 - params[1] - params[3]) * self.yratio, \
+                params[2] * self.xratio, params[3] * self.yratio))
+            self.uniframes[len(self.uniframes) - 1].background_color = \
+                (params[4][0],params[4][1], params[4][2],1.0)
             self.root.add_subview(self.uniframes[len(self.uniframes) - 1])
 
     def showpage(self):
