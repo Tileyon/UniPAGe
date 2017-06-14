@@ -8,6 +8,6 @@ Created:        04/04/2017
 
 Copyright:      © 2017 Ti Leyon
 
-Licence:        julia geeks
+Licence:       
 
-The J.U.L.I.A. G.E.E.K.S. license or julia geeks (all lower case) license is an educational licensure and an acronym for "Just Understand, Learn, Innovate And Go Enhance Every Known Statements”. julia geeks strongly discourage all forms of plagiarism or mindless alteration of a given intellectual production. It promotes innovative, constructive and original addition or improvement to the said production. Such additions will be added to the current release and their authors credited in the subsequent “commits”. In the unfortunate event that the material should be reproduced, transformed or otherwise manipulated in whole or in parts then current local, state, federal and international copyright laws should apply. julia geeks is also a reminder of Albert’s observation that “imagination is more important than knowledge”.
+<a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-sa/4.0/88x31.png" /></a><br />This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-sa/4.0/">Creative Commons Attribution-ShareAlike 4.0 International License</a>.
